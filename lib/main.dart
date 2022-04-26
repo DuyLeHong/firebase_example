@@ -6,6 +6,7 @@ import 'dart:async';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_example/AddUser.dart';
 import 'package:firebase_example/FilmList.dart';
 import 'package:flutter/material.dart';
 import 'tabs_page.dart';
@@ -26,9 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Firebase Analytics Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData.dark(),
       home: MyHomePage(),
     );
   }
@@ -75,8 +74,11 @@ class MyHomePage extends StatelessWidget {
                         email: "codefresher.flutter15@example.com",
                         password: "SuperSecretPassword!");
 
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const FilmList()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            AddUser('Nguyen Thanh Long', 'CodeFresher', 26)));
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {
                   print('No user found for that email.');
