@@ -6,6 +6,7 @@ import 'dart:async';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_example/FilmList.dart';
 import 'package:flutter/material.dart';
 import 'tabs_page.dart';
 
@@ -73,6 +74,9 @@ class MyHomePage extends StatelessWidget {
                     .signInWithEmailAndPassword(
                         email: "codefresher.flutter15@example.com",
                         password: "SuperSecretPassword!");
+
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const FilmList()));
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {
                   print('No user found for that email.');
