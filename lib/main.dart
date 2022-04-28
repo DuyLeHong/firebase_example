@@ -8,6 +8,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_example/AddUser.dart';
 import 'package:firebase_example/FilmList.dart';
+import 'package:firebase_example/StorageScreen.dart';
 import 'package:flutter/material.dart';
 import 'GetUserName.dart';
 import 'UserInformation.dart';
@@ -80,7 +81,7 @@ class MyHomePage extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            UserInformation()));
+                            StorageScreen()));
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {
                   print('No user found for that email.');
