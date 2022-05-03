@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class StorageScreen extends StatefulWidget {
   @override
@@ -32,44 +33,72 @@ class _StorageScreenState extends State<StorageScreen> {
               _downloadImageUrl = await imageRef.getDownloadURL();
 
               setState(() {});
-
-              // final appDocDir = await getApplicationDocumentsDirectory();
-              // String filePath = "${appDocDir.path}";
-              // final file = File(filePath);
-              //
-              // final downloadTask = islandRef.writeToFile(file);
-              // downloadTask.snapshotEvents.listen((taskSnapshot) {
-              //   switch (taskSnapshot.state) {
-              //     case TaskState.running:
-              //     // TODO: Handle this case.
-              //       break;
-              //     case TaskState.paused:
-              //     // TODO: Handle this case.
-              //       break;
-              //     case TaskState.success:
-              //
-              //       print('Download images successfully!');
-              //     // TODO: Handle this case.
-              //       break;
-              //     case TaskState.canceled:
-              //     // TODO: Handle this case.
-              //       break;
-              //     case TaskState.error:
-              //     // TODO: Handle this case.
-              //       break;
-              //   }
-              // });
             },
             child: Text('Download File'),
           ),
           ElevatedButton(
-            onPressed: () async {},
+            onPressed: () async {
+
+              String testFilePath = "/storage/emulated/0/Download/Banner-KH-ios1-1024x1024.png";
+
+              if (await Permission.storage.request().isGranted) {
+                upLoadImageFileFromAndroidStorage(testFilePath);
+              }
+
+// You can request multiple permissions at once.
+              Map<Permission, PermissionStatus> statuses = await [
+                Permission.storage,
+              ].request();
+
+              upLoadImageFileFromAndroidStorage(testFilePath);
+
+            },
             child: Text('Upload File'),
           ),
-          if (_downloadImageUrl != '')
-            Image.network(_downloadImageUrl),
+          if (_downloadImageUrl != '') Image.network(_downloadImageUrl),
         ],
       )),
     );
+
+  }
+
+  void upLoadImageFileFromAndroidStorage (String _filePath) {
+    //final appDocDir = await getExternalStorageDirectory();
+    String filePath = _filePath;
+    final file = File(filePath);
+
+    // Pictures/LatestShare.jpg
+// Create the file metadata
+    //final metadata = SettableMetadata(contentType: "image/png");
+
+// Upload file and metadata to the path 'images/mountains.jpg'
+    final uploadTask = storageRef
+        .child("anh/anh_up_len.png")
+        .putFile(file);
+
+// Listen for state changes, errors, and completion of the upload.
+    uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          final progress = 100.0 *
+              (taskSnapshot.bytesTransferred /
+                  taskSnapshot.totalBytes);
+          print("Upload is $progress% complete.");
+          break;
+        case TaskState.paused:
+          print("Upload is paused.");
+          break;
+        case TaskState.canceled:
+          print("Upload was canceled");
+          break;
+        case TaskState.error:
+        // Handle unsuccessful uploads
+          break;
+        case TaskState.success:
+        // Handle successful uploads on complete
+        // ...
+          break;
+      }
+    });
   }
 }
