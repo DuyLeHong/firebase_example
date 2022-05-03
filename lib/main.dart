@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'GetUserName.dart';
 import 'UserInformation.dart';
 import 'tabs_page.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -91,6 +92,16 @@ class MyHomePage extends StatelessWidget {
               }
             },
             child: Text('Log In'),
+          ),
+
+          ElevatedButton(
+            onPressed: () async {
+              //FirebaseCrashlytics.instance.crash();
+
+              final a = [12];
+              print(a[10]);
+            },
+            child: Text('Test Crash'),
           ),
         ],
       )),

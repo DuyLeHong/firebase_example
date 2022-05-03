@@ -39,6 +39,8 @@ class _StorageScreenState extends State<StorageScreen> {
           ElevatedButton(
             onPressed: () async {
 
+              // chon file trong bo nho thiet bij
+
               String testFilePath = "/storage/emulated/0/Pictures/LatestShare.jpg";
 
               if (await Permission.storage.request().isGranted) {
@@ -52,7 +54,7 @@ class _StorageScreenState extends State<StorageScreen> {
                 Permission.storage,
               ].request();
 
-              if (await Permission.storage.request().isGranted) {
+              if (statuses[Permission.storage] == PermissionStatus.granted) {
                 upLoadImageFileFromAndroidStorage(testFilePath);
               }
 
