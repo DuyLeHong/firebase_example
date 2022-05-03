@@ -39,10 +39,12 @@ class _StorageScreenState extends State<StorageScreen> {
           ElevatedButton(
             onPressed: () async {
 
-              String testFilePath = "/storage/emulated/0/Download/Banner-KH-ios1-1024x1024.png";
+              String testFilePath = "/storage/emulated/0/Pictures/LatestShare.jpg";
 
               if (await Permission.storage.request().isGranted) {
                 upLoadImageFileFromAndroidStorage(testFilePath);
+
+                return;
               }
 
 // You can request multiple permissions at once.
@@ -50,7 +52,9 @@ class _StorageScreenState extends State<StorageScreen> {
                 Permission.storage,
               ].request();
 
-              upLoadImageFileFromAndroidStorage(testFilePath);
+              if (await Permission.storage.request().isGranted) {
+                upLoadImageFileFromAndroidStorage(testFilePath);
+              }
 
             },
             child: Text('Upload File'),
@@ -67,13 +71,13 @@ class _StorageScreenState extends State<StorageScreen> {
     String filePath = _filePath;
     final file = File(filePath);
 
-    // Pictures/LatestShare.jpg
+    //
 // Create the file metadata
     //final metadata = SettableMetadata(contentType: "image/png");
 
 // Upload file and metadata to the path 'images/mountains.jpg'
     final uploadTask = storageRef
-        .child("anh/anh_up_len.png")
+        .child("anh/anh_up_len2.jpg")
         .putFile(file);
 
 // Listen for state changes, errors, and completion of the upload.
